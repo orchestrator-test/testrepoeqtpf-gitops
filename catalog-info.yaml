@@ -1,0 +1,19 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: testrepoeqtpf-gitops
+  description: testrepoeqtpf description
+  annotations:
+    argocd/app-selector: rht-gitops.com/janus-argocd=testrepoeqtpf-gitops
+    backstage.io/kubernetes-label-selector: 'app=testrepoeqtpf,sonataflow.org/workflow-app=testrepoeqtpf'
+    backstage.io/kubernetes-namespace: sonataflow-infra
+    backstage.io/kubernetes-id: testrepoeqtpf
+    github.com/project-slug: orchestrator-test/testrepoeqtpf-gitops
+    gitlab.com/project-slug: orchestrator-test/testrepoeqtpf-gitops
+spec:
+  type: workflow-project
+  system: system:default/janus-orchestrator
+  lifecycle: development
+  owner: user:default/guest
+  dependsOn:
+    - component:testrepoeqtpf

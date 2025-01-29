@@ -1,0 +1,30 @@
+apiVersion: sonataflow.org/v1alpha08
+kind: SonataFlow
+metadata:
+  name: testrepoeqtpf
+  annotations:
+    sonataflow.org/profile: gitops
+  labels:
+    backstage.io/kubernetes-id: testrepoeqtpf
+spec:
+  persistence:
+    postgresql:
+      secretRef:
+        name: sonataflow-psql-postgresql
+        userKey: postgres-username
+        passwordKey: postgres-password
+      serviceRef:
+        name: sonataflow-psql-postgresql
+        namespace: sonataflow-infra
+        port: 5432
+        databaseName: sonataflow
+        databaseSchema: testrepoeqtpf
+  podTemplate:
+    container:
+      image: serverless-workflow-testrepoeqtpf
+      envFrom:
+        - configMapRef:
+            name: testrepoeqtpf-gitops
+        - secretRef:
+            name: testrepoeqtpf-secret
+      resources: {}

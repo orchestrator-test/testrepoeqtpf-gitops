@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+__RESOURCES__
+namespace: sonataflow-infra
+
+configurations:
+- config/image-configuration.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+secretGenerator:
+  - envs:
+      - secret.properties
+    name: testrepoeqtpf-secret
+configMapGenerator:
+  - envs:
+      - config.properties
+    name: testrepoeqtpf-gitops
+
+# Replace dev profile in SonataFlow instance(s), add image and envFrom
+patches:
+- path: sonataflow-patch.yaml
+  target:
+    kind: SonataFlow
+    name: testrepoeqtpf
+images:
+- name: serverless-workflow-testrepoeqtpf
+  newName: quay.io/orchestrator-test/orchestrator-qe-ci
+  newTag: __IMAGE_TAG__

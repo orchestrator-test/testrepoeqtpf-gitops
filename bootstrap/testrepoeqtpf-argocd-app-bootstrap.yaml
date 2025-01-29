@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: testrepoeqtpf
+  namespace: orchestrator-gitops
+  labels:
+    app-type: bootstrap
+    app: testrepoeqtpf
+    rht-gitops.com/janus-argocd: testrepoeqtpf
+spec:
+  destination:
+    namespace: sonataflow-infra
+    server: https://kubernetes.default.svc
+  project: orchestrator-gitops
+  source:
+    path: argocd
+    repoURL: git@github.com:orchestrator-test/testrepoeqtpf.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      # Keep history of pipeline runs
+      prune: false
+      selfHeal: true
